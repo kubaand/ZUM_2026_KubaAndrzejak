@@ -228,8 +228,8 @@ Pełny zapis jest w `final_system.md`. [Krótkie uzasadnienie wyboru na podstawi
 
 | Data | Zadanie | Co zmieniono i dlaczego |
 |---|---|---|
-| | | |
+| 08.11.2026 | Zadanie 1 | Audyt danych, usunięcie duplikatów - uniknięcie przecieku danych, plik pair_decisions.csv zawierający wynmik maualnego wybierania kopii stworzony i dodany do results|
 
 ## Licencja projektu
 
-[Na przykład MIT. Dane używane zgodnie z licencją opisaną w sekcji „Dane i licencja”.]
+[GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007](https://github.com/lindawangg/COVID-Net/blob/master/LICENSE.md)]
