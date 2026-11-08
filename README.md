@@ -98,32 +98,102 @@ Uzupełniaj sekcje w zadaniach podanych w nawiasach. Zastępuj teksty w nawiasac
 
 ## Informacje ogólne
 
-* Tytuł: [tytuł projektu]
-* Autor: [imię i nazwisko]
-* Modalność: [tekst, obraz, audio albo dane multimodalne]
-* Problem klasyfikacji: [co jest klasą, ile jest klas]
+* Tytuł: [Porównanie skuteczności klasycznych metod uczenia maszynowego i modeli pretrained w klasyfikacji COVID-19 na podstawie zdjęć RTG klatki piersiowej.]
+* Autor: [Kuba Andrzejak]
+* Modalność: [obraz]
+* Problem klasyfikacji: [Nadzorowany, binarna klasyfikacja jednolabelowa. Każdemu zdjęciu przypisana jest jedna etykieta, negative albo positive.]
 
 ## Problem i pytanie eksperymentalne (Zadanie 1)
 
-[Jaki problem rozwiązujesz i co dokładnie chcesz sprawdzić.]
+[Czy zastosowanie modelu pretrained ResNet50 z wykorzystaniem transfer learning pozwala uzyskać wyższą skuteczność klasyfikacji zdjęć RTG niż klasyczny klasyfikator Logistic Regression wykorzystujący wartości pikseli?]
 
 ## Dane i licencja (Zadanie 1)
 
-[Źródło i link, licencja, sposób pobrania, liczba przykładów, lista klas, sposób oznaczenia etykiet, znane ograniczenia.]
+[# Źródło i link - Kaggle - https://www.kaggle.com/datasets/andyczhao/covidx-cxr2
+
+License: [GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007](https://github.com/lindawangg/COVID-Net/blob/master/LICENSE.md)
+
+* covid-chestxray-dataset
+
+Multiple Licenses: Apache 2.0, Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0), Attribution 4.0 International (CC BY 4.0)
+
+* Figure 1 COVID-19 Chest X-ray Dataset Initiative
+
+License: [GNU General Public License (GPLv3)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+* Actualmed COVID-19 Chest X-ray Dataset Initiative
+
+License: [GNU General Public License (GPLv3)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+* COVID-19 Radiography Database - Version 3
+
+Multiple Licenses: Attribution 3.0 Unported (CC BY 3.0), Attribution 4.0 International (CC BY 4.0), Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+
+* RSNA Pneumonia Detection Challenge
+
+License: [Terms of Use and Attribution](https://www.rsna.org/-/media/Files/RSNA/Education/AI-resources-and-training/AI-image-challenge/pneumonia-detection-challenge-terms-of-use-and-attribution.ashx)
+
+* RSNA International COVID-19 Open Radiology Database (RICORD)
+
+License: [Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
+
+* BIMCV-COVID19+: a large annotated dataset of RX and CT images of COVID19 patients
+
+License:Data Research Use Agreement (https://github.com/BIMCV-CSUSP/BIMCV-COVID-19/blob/master/BIMCV-COVID19%2B/LICENSE.md)
+
+* Stony Brook University COVID-19 Positive Cases (COVID-19-NY-SBU)
+
+License:[TCIA Data Usage Policy](https://www.cancerimagingarchive.net/data-usage-policies-and-restrictions/), [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)
+
+# Sposób pobrania 
+
+Dane pobrano i rozpakowano lokalnie
+
+# Liczba przykładów
+
+Oryginalne manifesty zawierają 84 818 wpisów i 45 342 unikalne ID pacjentów
+
+# Lista klas 
+
+[negative, positive]
+
+# Sposób oznaczenia etykiet 
+
+Etykiety przejęto z manifestów dostawcy. Nie wykonywano samodzielnej oceny medycznej obrazów.
+
+# Znane ograniczenia
+
+* Powiązanie źródła z klasą. Niektóre kolekcje zawierają wyłącznie jedną klasę. rsna dostarcza zdjęcia negatywne, a m.in. sirm, ricord i stonybrook pozytywne. Model może wykorzystywać napisy, kontrast lub inne cechy kolekcji do przewidywania etykiety.
+
+* Różne rozkłady danych. W train około 84,27% zdjęć jest pozytywnych, podczas gdy validation i final test są niemal zbalansowane. Między podzbiorami różni się również udział źródeł, co może wpływać na wyniki.
+
+* Niepełna identyfikacja pacjentów. Wykryto kopie obrazów przypisane różnym ID. Utworzono grupy powiązanych identyfikatorów, jednak ich rozłączność nie gwarantuje pełnej rozłączności rzeczywistych osób.
+
+* Częściowa kontrola podobnych kopii. Dokładne duplikaty sprawdzono w całym zbiorze. Dodatkowo oceniono ręcznie 66 par wybranych z kandydatów dHash i rankingu SSIM. Kopie o innych skrótach, po przycięciu, obrocie lub zmianach obrazu mogły pozostać niewykryte.
+
+* Zależność zdjęć jednego pacjenta. Jedna osoba może mieć wiele obrazów. Metryki liczone na poziomie zdjęć nadają większy wpływ pacjentom z większą liczbą badań.
+
+* Jakość etykiet i obrazów. Etykiety przejęto z manifestów bez niezależnej weryfikacji medycznej. Audyt wykrył jeden identyczny obraz ze sprzecznymi etykietami. Obrazy różnią się także rozmiarem, jasnością, kadrowaniem i oznaczeniami.
+
+* Ograniczona generalizacja. Podział ocenia nowych pacjentów w mieszaninie źródeł reprezentowanej w COVIDx. Wynik nie określa skuteczności na nowych szpitalach, aparaturze ani populacjach.
+
+* Brak walidacji klinicznej. Wyniki klasyfikacji na COVIDx nie stanowią potwierdzenia przydatności modelu do diagnozowania pacjentów.]
+
+
 
 ## Protokół (Zadanie 1)
 
-* Jednostka generalizacji: [na przykład recenzja, pacjent, mówca, nagranie źródłowe]
-* Podział: [metoda i uzasadnienie]
-* Metryka główna i pomocnicze: [z uzasadnieniem]
-* Seed: [wartość]
+* Jednostka generalizacji: [pacjent]
+* Podział: [train/validation/test, skorygowany po audycie. Usunięto nadmiarowe dokładne kopie oraz oba wpisy obrazu ze sprzecznymi etykietami. Dla grup powiązanych ID występujących w kilku podzbiorach zachowano pierwszeństwo test → validation → train, wykluczając wszystkie zdjęcia powiązanych ID z podzbiorów o niższym pierwszeństwie. Łącznie wykluczono 118 wpisów. Sprawdzono rozłączność utworzonych grup oraz unikalność dokładnych haszy w końcowym zbiorze.]
+* Metryka główna i pomocnicze: [główną metryką jest macro-F1, przypisująca równą wagę wynikowi F1 każdej klasy. Jest to uzasadnione niezbalansowaniem train, w którym około 84,27% zdjęć ma etykietę pozytywną. Pomocniczo raportowane będą accuracy, precision i recall klasy pozytywnej oraz macierz pomyłek. Metryki będą liczone na poziomie zdjęć.]
+* Seed: [42]
 * Final test: zamrożony w commicie z tagiem `task-1`, identyfikatory w `splits/`. Jeśli podział był później poprawiany, podaj commit poprawionej wersji i opisz zmianę w dzienniku zmian.
 
 | Zbiór | Liczba przykładów | Liczba niezależnych jednostek |
 |---|---|---|
-| train | | |
-| validation | | |
-| final test | | |
+| train | 67782 | 35400 |
+| validation | 8451 | 5161 |
+| final test | 8466 | 4721 |
 
 ## Wyniki (Zadania 2 do 5)
 
